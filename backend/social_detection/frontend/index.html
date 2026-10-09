@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXORA Social Monitoring</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            color: #111827;
+        }
+
+        .header {
+            background: #111827;
+            color: white;
+            padding: 24px 35px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 30px;
+        }
+
+        .header p {
+            margin: 6px 0 0;
+            color: #d1d5db;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 30px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 14px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .card h3 {
+            margin: 0 0 8px;
+            font-size: 15px;
+            color: #6b7280;
+        }
+
+        .card h2 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        .scan-box {
+            background: white;
+            padding: 28px;
+            border-radius: 14px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .scan-box h2 {
+            margin-top: 0;
+        }
+
+        label {
+            display: block;
+            margin-top: 14px;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        button {
+            margin-top: 20px;
+            background: #111827;
+            color: white;
+            border: none;
+            padding: 13px 22px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        #result {
+            margin-top: 25px;
+            padding: 22px;
+            background: #f9fafb;
+            border-radius: 12px;
+        }
+
+        .high {
+            color: #dc2626;
+            font-weight: bold;
+        }
+
+        .medium {
+            color: #d97706;
+            font-weight: bold;
+        }
+
+        .low {
+            color: #16a34a;
+            font-weight: bold;
+        }
+
+        .error {
+            color: #dc2626;
+            font-weight: bold;
+        }
+
+        .result-card {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .result-item {
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+        }
+
+        @media (max-width: 800px) {
+            .cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .result-card {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <h1>NEXORA</h1>
+        <p>Social Media Threat Monitoring</p>
+    </div>
+
+    <div class="container">
+
+        <div class="cards">
+            <div class="card">
+                <h3>Total Scanned</h3>
+                <h2 id="total">0</h2>
+            </div>
+
+            <div class="card">
+                <h3>High Risk</h3>
+                <h2 id="high">0</h2>
+            </div>
+
+            <div class="card">
+                <h3>Medium Risk</h3>
+                <h2 id="medium">0</h2>
+            </div>
+
+            <div class="card">
+                <h3>Low Risk</h3>
+                <h2 id="low">0</h2>
+            </div>
+        </div>
+
+        <div class="scan-box">
+            <h2>Social Account Scan</h2>
+
+            <label>Platform</label>
+            <select id="platform">
+                <option>Instagram</option>
+                <option>Facebook</option>
+                <option>X</option>
+            </select>
+
+            <label>Official Username</label>
+            <input id="official_username" value="examplecompany">
+
+            <label>Official Display Name</label>
+            <input id="official_display_name" value="Example Company">
+
+            <label>Official Bio</label>
+            <textarea id="official_bio">Official Example Company account</textarea>
+
+            <label>Candidate Username</label>
+            <input id="candidate_username" value="examplecompany_official">
+
+            <label>Candidate Display Name</label>
+            <input id="candidate_display_name" value="Example Company Official">
+
+            <label>Candidate Bio</label>
+            <textarea id="candidate_bio">Claim your reward now. Send OTP.</textarea>
+
+            <button onclick="scanAccount()">Scan Account</button>
+
+            <div id="result">
+                Result will appear here.
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+
+        let total = 0;
+        let high = 0;
+        let medium = 0;
+        let low = 0;
+
+        async function scanAccount() {
+
+            const data = {
+                platform: document.getElementById("platform").value,
+
+                official_username:
+                    document.getElementById("official_username").value,
+
+                official_display_name:
+                    document.getElementById("official_display_name").value,
+
+                official_bio:
+                    document.getElementById("official_bio").value,
+
+                candidate_username:
+                    document.getElementById("candidate_username").value,
+
+                candidate_display_name:
+                    document.getElementById("candidate_display_name").value,
+
+                candidate_bio:
+                    document.getElementById("candidate_bio").value,
+
+                official_logo:
+                    "social_detection/data/images/official_logo.png",
+
+                candidate_logo:
+                    "social_detection/data/images/candidate_logo.png"
+            };
+
+            try {
+
+                const response = await fetch(
+                    "http://127.0.0.1:8000/social/scan",
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(data)
+                    }
+                );
+
+                if (!response.ok) {
+                    throw new Error("Backend request failed");
+                }
+
+                const result = await response.json();
+
+                total++;
+
+                if (result.risk_level === "HIGH") {
+                    high++;
+                } else if (result.risk_level === "MEDIUM") {
+                    medium++;
+                } else {
+                    low++;
+                }
+
+                document.getElementById("total").innerText = total;
+                document.getElementById("high").innerText = high;
+                document.getElementById("medium").innerText = medium;
+                document.getElementById("low").innerText = low;
+
+                document.getElementById("result").innerHTML = `
+            <h3>Scan Result</h3>
+
+            <p>
+                <strong>Status:</strong>
+                ${result.status}
+            </p>
+
+            <p>
+                <strong>Risk Score:</strong>
+                ${result.risk_score}
+            </p>
+
+            <p>
+                <strong>Risk Level:</strong>
+                <span class="${result.risk_level.toLowerCase()}">
+                    ${result.risk_level}
+                </span>
+            </p>
+
+            <h4>Similarity</h4>
+
+            <div class="result-card">
+
+                <div class="result-item">
+                    Username: ${result.similarity.username}%
+                </div>
+
+                <div class="result-item">
+                    Display Name: ${result.similarity.display_name}%
+                </div>
+
+                <div class="result-item">
+                    Bio: ${result.similarity.bio}%
+                </div>
+
+                <div class="result-item">
+                    Logo: ${result.similarity.logo}%
+                </div>
+
+                <div class="result-item">
+                    Look-alike: ${result.similarity.lookalike}%
+                </div>
+
+                <div class="result-item">
+                    Scam Score: ${result.scam_score}%
+                </div>
+
+            </div>
+
+            <h4>Detection Reasons</h4>
+
+            <ul>
+                ${result.reasons
+                        .map(reason => `<li>${reason}</li>`)
+                        .join("")
+                    }
+            </ul>
+        `;
+
+            } catch (error) {
+
+                document.getElementById("result").innerHTML = `
+            <p class="error">
+                Error: ${error.message}
+            </p>
+        `;
+            }
+        }
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,26 @@
+[
+    {
+        "platform": "Instagram",
+        "username": "examplecompany",
+        "display_name": "Example Company",
+        "bio": "Official Example Company account",
+        "followers": 100000,
+        "verified": true
+    },
+    {
+        "platform": "Instagram",
+        "username": "examplecompany_support",
+        "display_name": "Example Company Support",
+        "bio": "Customer support for Example Company",
+        "followers": 1200,
+        "verified": false
+    },
+    {
+        "platform": "Instagram",
+        "username": "examplecompany_reward",
+        "display_name": "Example Company Official",
+        "bio": "Claim your reward now",
+        "followers": 300,
+        "verified": false
+    }
+]

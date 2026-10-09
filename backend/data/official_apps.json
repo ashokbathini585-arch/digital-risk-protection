@@ -1,0 +1,58 @@
+[
+  {
+    "brand": "Instagram",
+    "app_name": "Instagram",
+    "developer": "Meta Platforms, Inc.",
+    "package_id": "com.instagram.android",
+    "description": "Instagram is a social media app for sharing photos, videos, stories and reels."
+  },
+  {
+    "brand": "WhatsApp",
+    "app_name": "WhatsApp Messenger",
+    "developer": "WhatsApp LLC",
+    "package_id": "com.whatsapp",
+    "description": "WhatsApp is a messaging app for private messages, calls and media sharing."
+  },
+  {
+    "brand": "Facebook",
+    "app_name": "Facebook",
+    "developer": "Meta Platforms, Inc.",
+    "package_id": "com.facebook.katana",
+    "description": "Facebook is a social networking app for connecting with people, communities and businesses."
+  },
+  {
+    "brand": "Telegram",
+    "app_name": "Telegram",
+    "developer": "Telegram FZ-LLC",
+    "package_id": "org.telegram.messenger",
+    "description": "Telegram is a fast messaging app with chats, media sharing and synchronized conversations."
+  },
+  {
+    "brand": "YouTube",
+    "app_name": "YouTube",
+    "developer": "Google LLC",
+    "package_id": "com.google.android.youtube",
+    "description": "YouTube is the official video app for watching, subscribing and creating video content."
+  },
+  {
+    "brand": "Paytm",
+    "app_name": "Paytm",
+    "developer": "One97 Communications Ltd.",
+    "package_id": "net.one97.paytm",
+    "description": "Paytm is a digital payments and financial services application."
+  },
+  {
+    "brand": "PhonePe",
+    "app_name": "PhonePe",
+    "developer": "PhonePe",
+    "package_id": "com.phonepe.app",
+    "description": "PhonePe is a UPI payments and financial services application."
+  },
+  {
+    "brand": "Google Pay",
+    "app_name": "Google Pay",
+    "developer": "Google LLC",
+    "package_id": "com.google.android.apps.nbu.paisa.user",
+    "description": "Google Pay is a digital payments application."
+  }
+]
